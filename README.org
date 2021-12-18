@@ -1,0 +1,14 @@
+* My Emacs Configuration
+A perpetual work in progress.
+
+I've gone back and forth between several IDEs/editors over the years but I keep coming back to Emacs. I figured
+it was time to organize my config properly.
+
+** Installation notes
+- The "Hack" font has to be installed separately. See https://github.com/source-foundry/Hack
+
+** Issues, Notes, Todos
+- [ ] Startup could be improved, including the startup screen.
+- [ ] Personal org is chaotically strewn across files not yet included here.
+- [ ] A lot of additional customization for modes I use often isn't included here, yet.
+- [ ] There are a few Hydras I've been meaning to add but haven't gotten to yet.
