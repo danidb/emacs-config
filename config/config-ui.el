@@ -6,9 +6,47 @@
 ;;; more comfortable for me.
 ;;; Code:
 
-;;; scroll bar, tool bar, etc.
-(toggle-scroll-bar -1)
+;;; No startup scren (I'll configure this
+(use-package dashboard
+  :ensure t
+  :config (progn
+	    (dashboard-setup-startup-hook)
+	    (setq dashboard-projects-backend 'projectile)
+	    (add-to-list 'dashboard-items '(projects . 3) t)
+	    (setq dashboard-set-heading-icons t)
+	    (setq dashboard-set-file-icons t)
+	    (setq dashboard-set-navigator t)))
+
+
+(use-package treemacs-projectile
+  :ensure t)
+
+(use-package treemacs-all-the-icons
+  :ensure t)
+(treemacs-load-all-the-icons-with-workaround-font "Hermit")
+
+(use-package treemacs-magit
+  :ensure t)
+
+;; Treemacs
+(use-package treemacs
+  :ensure t
+  :config (progn
+	    (setq treemacs-indent-guide-style 'line)
+	    (treemacs-indent-guide-mode t)))
+
+
+;;; no blinking cursor
+(blink-cursor-mode -1)
+
+;;; menubar, toolbar, etc.
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
+
+;;; nice scroll behavior (got this from emacs-prelude)
+(setq scroll-margin 0
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
 
 ;;; disable the bells
 (setq visible-bell 'nil)
@@ -27,7 +65,9 @@
   :custom (progn
 	   (setq ivy-use-virtual-buffers t)
 	   (setq ivy-count-format "(%d/%d) ")
+	   (setq ivy-use-selectable-prompt t)
 	   (setq enable-recursive-minibuffers t)))
+
 (use-package ivy-posframe
   :ensure t
   :custom
@@ -42,6 +82,9 @@
   (ivy-posframe-border ((t (:background "#6272a4"))))
   (ivy-posframe-cursor ((t (:background "#61bfff"))))
   :init (ivy-posframe-mode 1))
+
+(define-key ivy-minibuffer-map (kbd "<ESC>") 'minibuffer-keyboard-quit)
+(define-key swiper-map (kbd "<ESC>") 'minibuffer-keyboard-quit)
 
 (use-package hydra-posframe
   :load-path "~/.emacs.d/packages/hydra-posframe/"
@@ -60,6 +103,6 @@
 (use-package hl-todo
   :ensure t
   :init (global-hl-todo-mode))
-
+(toggle-scroll-bar -1)
 (provide 'config-ui)
 ;;; config-ui.el ends here

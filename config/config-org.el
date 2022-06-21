@@ -11,7 +11,7 @@
 ;;;
 ;;; Code:
 (setq org-directory "~/org")
-(setq org-agenda-files "~/org/inbox.org")
+(setq org-agenda-files '("~/org/inbox.org"))
 
 (setq org-capture-templates
       `(("i" "Inbox" entry (file "inbox.org")
@@ -24,7 +24,7 @@
   (call-interactively 'org-store-link)
   (org-capture nil "i"))
 
-(define key global-map (kbd "C-c i") 'org-capture-inbox)
+(define-key global-map (kbd "C-c i") 'org-capture-inbox)
 
 (provide 'config-org)
 ;;; config-org.el ends here

@@ -1,3 +1,4 @@
+
 ;;; config-editing --- Editing mechanics
 ;;; Commentary:
 ;;; Code:
@@ -7,8 +8,14 @@
   :ensure t)
 
 ;;; Backups
-(setq temporary-file-directory "~/.emacs.backups")
-(setq backup-directory-alist `(("." . "~/.saves")))
+(setq backup-by-copying t)
+(setq delete-old-versions t)
+(setq kept-new-versions 6)
+(setq kept-old-versions 2)
+(setq version-control t)
+(setq temporary-file-directory "~/.saves/")
+(setq backup-directory-alist `((".*" . "~/.saves/")))
+(setq auto-save-file-name-transforms `((".*" "~/.saves/" t)))
 
 ;; Undo/Redo (Emacs 28), undo-tree
 (use-package undo-tree
@@ -16,6 +23,10 @@
 
 ;;; Automatically delete trailing whitespace
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; Minimap
+(use-package minimap
+  :ensure t)
 
 ;; Helpful Hydras
 (use-package hydra
@@ -30,6 +41,10 @@
 ;;; Multiple cursors
 (use-package multiple-cursors
   :ensure t)
+
+;; Hideshow
+(global-set-key (kbd "C-=") 'hs-toggle-hiding)
+
 
 ;; Un-indent
 (defun un-indent-by-removing-4-spaces ()
@@ -51,9 +66,8 @@
   :diminish
   :custom
   (company-begin-commands '(self-insert-command))
-  (company-idle-delay .1)
-  (company-minimum-prefix-length 2)
-  (company-show-numbers t)
+  (company-idle-delay .2)
+  (company-minimum-prefix-length 1)
   (company-tooltip-align-annotations 't)
   (global-company-mode t))
 (use-package company-box

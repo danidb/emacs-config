@@ -13,11 +13,6 @@
   :custom
   (setq projectile-project-search-path projectile-paths))
 
-(use-package treemacs
-  :ensure t)
-
-(use-package treemacs-projectile
-  :ensure t)
 
 (provide 'config-projects)
 ;;; config-projects.el ends here

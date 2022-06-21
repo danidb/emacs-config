@@ -36,10 +36,16 @@ under Mac OS X and macOS, where GUI apps are not started from a shell."
 (require 'config-editing)
 (require 'config-ui)
 (require 'config-envs)
+(require 'config-org)
+
+
+;; Automatically reload buffers that change on disk
+(global-auto-revert-mode t)
 
 ;;; Input
 (setq mouse-wheel-tilt-scroll t)
 (setq mouse-wheel-flip-direction t)
+
 
 ;;; Hydras
 (global-set-key (kbd "C-c h") 'hydra-hideshow/body)
@@ -52,6 +58,7 @@ under Mac OS X and macOS, where GUI apps are not started from a shell."
 (global-set-key (kbd "C-S-z") 'undo-redo)
 
 ;;; Ivy/Swiper
+(global-set-key (kbd "C-<return>") 'ivy-immediate-done)
 (global-set-key (kbd "C-s") 'swiper-isearch)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -75,6 +82,10 @@ under Mac OS X and macOS, where GUI apps are not started from a shell."
 ;;; Indentation
 (global-set-key (kbd "<S-tab>") 'un-indent-by-removing-4-spaces)
 
+;; Shell
+(use-package exec-path-from-shell
+  :ensure t)
+(exec-path-from-shell-initialize)
 
 (provide 'config-core)
 ;;; config-core.el ends here

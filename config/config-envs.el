@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+;; YAML
+(use-package yaml-mode
+  :ensure t)
+
 ;; js, ts, React, markdown
 (use-package json-mode
   :ensure t)
@@ -16,31 +20,65 @@
 (use-package graphql-mode
   :ensure t)
 
-(use-package js2-mode
+;; JS, JSX, TS, TSX
+(setq-default lsp-log-io nil)
+(setq-default lsp-print-io nil)
+(setq-default lsp-keymap-prefix "C-c l")
+(setq-default lsp-restart 'auto-restart)
+(setq-default lsp-ui-sideline-show-diagnostics t)
+(setq-default lsp-ui-sideline-show-hover t)
+(setq-default lsp-ui-sideline-show-code-actions t)
+
+(use-package lsp-mode
+  :ensure t
+  :hook ((web-mode . lsp-deferred)
+	 (lsp-mode . ksp-enable-which-key-integration))
+
+  :commands lsp-deffered)
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(setq-default web-mode-markup-indent-offset 2)
+(setq-default web-mode-code-indent-offset 2)
+(setq-default web-mode-css-indent-offset 2)
+(setq-default web-mode-enable-auto-indentation nil) ;; Don't indent when I yank etc.
+(setq-default web-mode-enable-auto-quoting nil) ;; Don't add quotes after =
+(use-package web-mode
+  :ensure t
+  :mode (("\\.js\\'" . web-mode)
+	 ("\\.jsx\\'" .  web-mode)
+	 ("\\.ts\\'" . web-mode)
+	 ("\\.tsx\\'" . web-mode)
+	 ("\\.html\\'" . web-mode))
+  :commands web-mode)
+
+(use-package prettier-js
   :ensure t)
 
-(require 'web-mode)
-(use-package tide
-  :ensure t
-  :custom (progn (interactive)
-		 (tide-setup)
-		 (setq flycheck-check-syntax-automatically '(save mode-enabled))
-		 (eldoc-mode 1)
-		 (tide-hl-identifier-mode 1)
-		 (add-hook 'before-save-hook 'tide-format-before-save)
-		 (add-hook 'typescript-mode-hook #'setup-tide-mode)
-		 (add-hook 'js2-mode-hook #'setup-tide-mode)
-		 (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
-		 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-		 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-		 (add-hook 'web-mode-hook
-			   (lambda ()
-			     (when (string-equal "jsx" (file-name-extension buffer-file-name))
-			       (setup-tide-mode))))
+(defun enable-minor-mode (my-pair)
+  "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+  (if (buffer-file-name)
+      (if (string-match (car my-pair) buffer-file-name)
+	  (funcall (cdr my-pair)))))
+
+(use-package prettier-js
+  :ensure t)
+(add-hook 'web-mode-hook #'(lambda ()
+                             (enable-minor-mode
+                              '("\\.jsx?\\'" . prettier-js-mode))
+			     (enable-minor-mode
+                              '("\\.js?\\'" . hs-minor-mode)) ;; hideshow
+			     (enable-minor-mode
+                              '("\\.jsx?\\'" . hs-minor-mode))
+			     (enable-minor-mode
+			      '("\\.tsx?\\'" . prettier-js-mode))
+			     (enable-minor-mode
+			      '("\\.ts?\\'" . hs-minor-mode))
+			     (enable-minor-mode
+                              '("\\.tsx?\\'" . hs-minor-mode))))
 
 
-		 (flycheck-add-mode 'javascript-eslint 'web-mode)
-		 (flycheck-add-next-checker 'javascript-eslint 'jsx-tide 'append)))
 
 ;; python
 (use-package company-jedi
