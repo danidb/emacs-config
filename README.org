@@ -1,9 +1,9 @@
 * My Emacs Configuration
 A perpetual work in progress.
 
-I used Emacs almost exclusively for many years but, for the kind of full-stack work I'm doing these days, I often opt for VSCode.
-Every tool has its niche, and I still prefer Emacs for some tasks/envs. I figured it was finally time to organize my config.
-This is based on some popular emacs config starters etc.
+I used Emacs almost exclusively for many years. Then, for a time, VSCode became my go-to, mostly to share configs/plugins with colleagues.
+Since then, I've settled on vim/neovim; I find the structure of configuration and keybindings a bit more ergonomic. It just feels right. 
+Every tool has its niche, and I still prefer Emacs for some envs. I figured it was finally time to organize my config.
 
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
 
